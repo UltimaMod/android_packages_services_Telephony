@@ -344,7 +344,7 @@ public class MSimCallNotifier extends CallNotifier {
      */
     @Override
     protected void ringAndNotifyOfIncomingCall(Connection c) {
-        if (PhoneUtils.isRealIncomingCall(c.getState())) {
+        if (PhoneUtils.isRealIncomingCall(c.getState()) && !mSilentRingerRequested) {
             mRinger.ring();
         } else {
             int subscription = c.getCall().getPhone().getSubscription();
@@ -488,7 +488,7 @@ public class MSimCallNotifier extends CallNotifier {
 
             boolean vibOut = PhoneUtils.PhoneSettings.vibOutgoing(mApplication, subscription);
             if (vibOut && callDurationMsec < 200) {
-                vibrate(100, 0, 0);
+                vibrate(100, 200, 0);
             }
             boolean vib45 = PhoneUtils.PhoneSettings.vibOn45Secs(mApplication, subscription);
             if (vib45) {
